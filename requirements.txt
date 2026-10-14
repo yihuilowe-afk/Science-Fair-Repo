@@ -29,7 +29,7 @@ rich==15.0.0
 setuptools==84.0.0
 six==1.17.0
 sqlparse==0.6.0
-tensorflow==2.22.0
+tensorflow==2.21.0
 termcolor==3.3.0
 typing_extensions==4.16.0
 urllib3==2.8.0
