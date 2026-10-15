@@ -1,47 +1,48 @@
-
+from django.urls import reverse
 data= {
     "lotion":{
         "Category":"Paper",
         "Status":"Recyclable"
     },
-    "#1 plastic": {
-        "Category":"PETE/PET plastic (Polyethylene terephthalate)",
-        "Status":"Recyclable",
-        "Examples":"<ul>>li>Single-use drink bottles</li><li>Condiment containers</li><li>Produce containers</li></ul>"
+    "#1 Plastic": {
+        "Category":"<p>PETE/PET plastic (Polyethylene terephthalate)</p>",
+        "Status":"<p>Recyclable</p>",
+        "Examples":"<ul><li>Single-use drink bottles</li><li>Condiment containers</li><li>Produce containers</li></ul>"
     },
-    "#2 plastic": {
-        "Category":"HDPE/PE-HD plastic (High density polyethylene)",
-        "Status":"Recyclable",
-        "Examples":"<ul><li>Milk jugs</li><li>Shampoo/conditioner bottles</li><li>Some cereal/grocery bags</li><li><ul><li>Note: no plastic bags are accepted for municipal recycling</li></ul></li></ul>"
+    "#2 Plastic": {
+        "Category":"<p>HDPE/PE-HD plastic (High density polyethylene)</p>",
+        "Status":"<p>Recyclable</p>",
+        "Examples":"<ul><li>Milk jugs</li><li>Shampoo/conditioner bottles</li><li>Some cereal/grocery bags <ul><li>Note: no plastic bags are accepted for municipal recycling</li></ul></li></ul>"
     },
-    "#3 plastic": {
+    "#3 Plastic": {
         "Category":"PVC/V plastic (Polyvinyl chloride)",
-        "Status":"",
-        "Examples":""
+        "Status":"Not Reyclable",
+        "Examples":"<ul><li>Piping</li><li>Children's/pet's toys</li><li>Medical Equipment</li></ul>"
     },
-    "#4 plastic": {
+    "#4 Plastic": {
         "Category": "LDPE/LD-PE plastic (Low density Polyethylene)",
-        "Status": "",
-        "Examples":""
+        "Status": "Not Recyclable",
+        "Examples":"<ul><li>Shrink wrap</li><li>Bubble wrap</li><li>Shopping/bread bags</li></ul>"
     },
-    "#5 plastic": {
+    "#5 Plastic": {
         "Category": "PP plastic (Polypropylene)",
-        "Status": "",
-        "Examples":""
+        "Status": "Recyclable",
+        "Examples":"<ul><li>Yogurt containers</li><li>Medicine/syrup bottles</li><li>Straws</li></ul>"
     },
-    "#6 plastic": {
+    "#6 Plastic": {
         "Category": "PS plastic (Polystyrene)",
-        "Status": "",
-        "Examples":""
+        "Status": "Not Recyclable",
+        "Examples":"<ul><li>Egg cartons</li><li>Disposable cups/plates</li><li>Takeout containers</li></ul>"
     },
-    "#7 plastic": {
+    "#7 Plastic": {
         "Category": 'Other/"O" plastics',
-        "Status": "",
-        "Examples":""
+        "Status": "Not Recyclable",
+        "Examples":"<ul><li>Car parts</li><li>Medical/electronic equipment</li><li>Sunglasses</li></ul>"
     },
 }
 
 def html_head(Item):
+    home_url = reverse('home')
     if Item[0].lower() == "a" or Item[0].lower() == "i" or Item[0].lower() == "o" or Item[0].lower() == "e" or Item[0].lower() == "u":
         article= "This is likely an: "
     else:
@@ -67,7 +68,7 @@ def html_head(Item):
         .accordion{
         width:600px;}
 
-        .accordion li{
+        .accordion .listitem{
         list-style:none;
         width:90vw;
         margin-bottom: 20px;
@@ -120,6 +121,8 @@ def html_head(Item):
         </div>
     </header>
     <br>
+    <a href="""+f'"{home_url}"'+""" role="button" class="btn btn-outline-secondary margined">Home</a>
+    <br>
     <hr>
     <div class="margined">
         <h2>
@@ -129,28 +132,28 @@ def html_head(Item):
     <hr>
     <br>
     <ul class="accordion">
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="first">
             <label for="first">Item Category</label>
             <div class="content">
                 <p>""" + data[Item]["Category"].lower() + """</p>
             </div>
         </li>
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="second">
             <label for="second">Recyclable?</label>
             <div class="content">
                 <p>you bet it is!</p>
             </div>
         </li>
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="third">
             <label for="third">Recyclable?</label>
             <div class="content">
                 <p>you bet it is!</p>
             </div>
         </li>
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="fourth">
             <label for="fourth">Recyclable?</label>
             <div class="content">
@@ -163,6 +166,7 @@ def html_head(Item):
 
 
 def numbers_head(Item):
+    home_url = reverse('home')
     return ("""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -184,7 +188,7 @@ def numbers_head(Item):
         .accordion{
         width:600px;}
 
-        .accordion li{
+        .accordion .listitem{
         list-style:none;
         width:90vw;
         margin-bottom: 20px;
@@ -237,6 +241,8 @@ def numbers_head(Item):
         </div>
     </header>
     <br>
+    <a href="""+f'"{home_url}"'+""" role="button" class="btn btn-outline-secondary margined">Home</a>
+    <br>
     <hr>
     <div class="margined">
         <h2>
@@ -246,28 +252,28 @@ def numbers_head(Item):
     <hr>
     <br>
     <ul class="accordion">
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="first">
             <label for="first">Item Category</label>
             <div class="content">
-                <p>""" + data[Item]["Category"].lower() + """</p>
+                <p>""" + data[Item]["Category"] + """</p>
             </div>
         </li>
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="second">
             <label for="second">Examples</label>
             <div class="content">
                 <p>"""+ data[Item]["Examples"] +"""</p>
             </div>
         </li>
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="third">
             <label for="third">Recyclable?</label>
             <div class="content">
                 <p>"""+ data[Item]["Status"] +"""</p>
             </div>
         </li>
-        <li>
+        <li class="listitem">
             <input type="radio" name="accordion" id="fourth">
             <label for="fourth">Recyclable?</label>
             <div class="content">

@@ -32,7 +32,7 @@ def number(request):
             Number = int(form.cleaned_data["plastic_number"])
             if Number > 7:
                 Number = 7
-            return HttpResponse(f"{c.numbers_head(f"#{Number} plastic")}", content_type= "text/html")
+            return HttpResponse(f"{c.numbers_head(f"#{Number} Plastic")}", content_type= "text/html")
         else:
             print("Form Errors:", form.errors.as_data())
             print("Raw POST data was:", request.POST)
