@@ -4,19 +4,19 @@ from django import forms
 
 
 class ImageSubmit(forms.Form):
-   camera_file = forms.ImageField(required=True, label="",
+   image_file = forms.ImageField(required=True, label="Use camera:",
       widget=forms.ClearableFileInput(attrs={
          'capture': 'environment',
          'accept': 'image/*',
       })
    )
-
 class FileSubmit(forms.Form):
-   image_file = forms.ImageField(required=True, label="",
+   image_file = forms.ImageField(required=True, label="Choose file:",
        widget=forms.ClearableFileInput(attrs={
           'accept': 'image/*',
       })
    )
+
 
 
 class NumberInput(forms.Form):

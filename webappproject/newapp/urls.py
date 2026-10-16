@@ -5,6 +5,8 @@ from . import views
 urlpatterns = [
     path('', views.home, name="home"),
     path('image-recognition', views.analyze, name="analyze"),
-    path('photo-input', views.photo, name="photo"),
-    path('numbers', views.number, name="numbers")
+    path('camera', views.photo, name="photo"),
+    path('files', views.file, name="file"),
+    path('numbers', views.number, name="numbers"),
+    path('train', views.train_model, name="train")
 ]
