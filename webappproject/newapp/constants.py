@@ -1,8 +1,54 @@
 from django.urls import reverse
 data= {
-    "lotion":{
-        "Category":"Paper",
-        "Status":"Recyclable"
+    "Aluminum Can":{
+        "Category":"Aluminum",
+        "Status":"Recyclable - If empty",
+        "Why":"Liquid may make the item too heavy to be moved by airflow during sorting"
+    },
+    "PET Bottle":{
+        "Category":"#1 Plastic - PETE/PET plastic (Polyethylene terephthalate)",
+        "Status":"Recyclable - If empty",
+        "Why":"Liquid may make the item too heavy to be moved by airflow during sorting"
+    },
+    "Cleaning Product":{
+        "Category":"#1 Plastic - PETE/PET plastic (Polyethylene terephthalate)",
+        "Status": "Recyclable - If empty and cleaned. Additionally, put the spray trigger/pump back on the bottle before recycling it.",
+        "Why":"The spray trigger is also recyclable, but is too small to be recycled on its own"
+    },
+    "Yogurt Container": {
+        "Category": "#5 Plastic - PP plastic (Polypropylene)",
+        "Status": "Recyclable - Clean and dry the container. If its cap is plastic, you can recycle that too, but if it's foil, it's not recyclable",
+        "Why":"The foil used on yogurt containers often contains a plastic film which makes it difficult to recycle"
+    },
+    "Soap Bottle":{
+        "Category":"#1 Plastic - PETE/PET plastic (Polyethylene terephthalate)",
+        "Status": "Recyclable - If empty and cleaned. Additionally, put the pump back on the bottle before recycling it.",
+        "Why":"The pump is also recyclable, but is too small to be recycled on its own"
+    },
+    "Single-use Cups": {
+        "Category": "#6 Plastic - PS plastic (Polystyrene)",
+        "Status": "Not Recyclable",
+        "Why": "Consists mostly of air, and is hard to clean"
+    },
+    "Takeout Container": {
+        "Category": "#6 Plastic - PS plastic (Polystyrene)",
+        "Status": "Not Recyclable",
+        "Why": "Consists mostly of air, and is hard to clean food residue"
+    },
+    "Milk Jug": {
+        "Category": "#2 Plastic - HDPE/PE-HD plastic (High density polyethylene)",
+        "Status": "Recyclable - If empty",
+        "Why": "Leftover liquid may make the item to heavy to move during sorting"
+    },
+    "Water Jug": {
+        "Category": "#2 Plastic - HDPE/PE-HD plastic (High density polyethylene) <br>    -Sometimes #1 or #5",
+        "Status": "Recyclable - If empty",
+        "Why": "Leftover liquid may make the item to heavy to move during sorting"
+    },
+    "Bottle Cap": {
+        "Category": "#1 Plastic - PETE/PET plastic (Polyethylene terephthalate)",
+        "Status": "Recyclable - If attached to bottle",
+        "Why": "Caps are often too small to be recycled on their own, attach it to a bottle to ensure it get recycled!"
     },
     "#1 Plastic": {
         "Category":"<p>PETE/PET plastic (Polyethylene terephthalate)</p>",
@@ -44,9 +90,9 @@ data= {
 def html_head(Item):
     home_url = reverse('home')
     if Item[0].lower() == "a" or Item[0].lower() == "i" or Item[0].lower() == "o" or Item[0].lower() == "e" or Item[0].lower() == "u":
-        article= "This is likely an: "
+        article= "Looks like this is an: "
     else:
-        article= "This is likely a: "
+        article= "Looks like this is a: "
     return ("""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,7 +100,7 @@ def html_head(Item):
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <title>RecycLabel Chicago</title>
+    <title>RecycLabel Plastics</title>
     <style>
         header {
         background-color: #6c757d;}
@@ -116,7 +162,7 @@ def html_head(Item):
         <br>
         <div class="margined">
             <h1>
-                Get Identifying - Photo Recognition
+                <strong>RecycLabel Plastics</strong>
             </h1>
         </div>
     </header>
@@ -136,28 +182,21 @@ def html_head(Item):
             <input type="radio" name="accordion" id="first">
             <label for="first">Item Category</label>
             <div class="content">
-                <p>""" + data[Item]["Category"].lower() + """</p>
+                <p>""" + data[Item]["Category"] + """</p>
             </div>
         </li>
         <li class="listitem">
             <input type="radio" name="accordion" id="second">
-            <label for="second">Recyclable?</label>
+            <label for="second">Is it Recyclable?</label>
             <div class="content">
-                <p>you bet it is!</p>
+                <p>"""+ data[Item]["Status"] +"""</p>
             </div>
         </li>
         <li class="listitem">
             <input type="radio" name="accordion" id="third">
-            <label for="third">Recyclable?</label>
+            <label for="third">Why?</label>
             <div class="content">
-                <p>you bet it is!</p>
-            </div>
-        </li>
-        <li class="listitem">
-            <input type="radio" name="accordion" id="fourth">
-            <label for="fourth">Recyclable?</label>
-            <div class="content">
-                <p>you bet it is!</p>
+                <p>"""+ data[Item]["Why"] +"""</p>
             </div>
         </li>
     </ul>
@@ -174,7 +213,7 @@ def numbers_head(Item):
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <title>RecycLabel Chicago</title>
+    <title>RecycLabel Plastics</title>
     <style>
         header {
         background-color: #6c757d;}
@@ -236,7 +275,7 @@ def numbers_head(Item):
         <br>
         <div class="margined">
             <h1>
-                Get Identifying - Photo Recognition
+                <strong>RecycLabel Plastics</strong>
             </h1>
         </div>
     </header>
@@ -271,13 +310,6 @@ def numbers_head(Item):
             <label for="third">Recyclable?</label>
             <div class="content">
                 <p>"""+ data[Item]["Status"] +"""</p>
-            </div>
-        </li>
-        <li class="listitem">
-            <input type="radio" name="accordion" id="fourth">
-            <label for="fourth">Recyclable?</label>
-            <div class="content">
-                <p>you bet it is!</p>
             </div>
         </li>
     </ul>

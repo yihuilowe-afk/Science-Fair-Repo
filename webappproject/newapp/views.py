@@ -125,7 +125,7 @@ def analyze(request):
             inputimg = np.expand_dims(np_img, axis=0)
             img = resnet50.preprocess_input(inputimg.copy())
             model = load_model(str(this_directory / "trash_data_resnet50.keras"))
-            class_names = ["Aluminum Can", "Baby Bottle", "Cleaning Product", "PET Bottle", "PET Bottle", "Soap Bottle", "Yogurt Container"]
+            class_names = ["Aluminum Can", "Bottle Cap", "Cleaning Product", "Milk Jug", "PET Bottle", "Single-use Cups", "Soap Bottle", "Takeout Container", "Water Jug", "Yogurt Container"]
             model.summary()
             predictions = model.predict(img)
             predicted_index = np.argmax(predictions[0])
