@@ -4,14 +4,14 @@ from django import forms
 
 
 class ImageSubmit(forms.Form):
-   image_file = forms.ImageField(required=True, label="Use camera:",
+   input_file = forms.ImageField(required=True, label="Use camera:",
       widget=forms.ClearableFileInput(attrs={
          'capture': 'environment',
          'accept': 'image/*',
       })
    )
 class FileSubmit(forms.Form):
-   image_file = forms.ImageField(required=True, label="Choose file:",
+   input_file = forms.ImageField(required=True, label="Choose file:",
        widget=forms.ClearableFileInput(attrs={
           'accept': 'image/*',
       })
@@ -20,7 +20,7 @@ class FileSubmit(forms.Form):
 
 
 class NumberInput(forms.Form):
-   plastic_number = forms.CharField(required=True, label="",
+   plastic_number = forms.IntegerField(required=True, label="",
       widget=forms.NumberInput(attrs={
          'placeholder': 'Plastic ID Number',
       })

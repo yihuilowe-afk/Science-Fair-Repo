@@ -15,12 +15,14 @@ from .models import ImageSubmit, NumberInput, FileSubmit
 
 Item = ""
 Number=""
+inputType = ""
 # Create your views here.
 def home(request):
     form = NumberInput()
     return render(request, 'newapp/home.html',{'form': form})
 
 def photo(request):
+    inputType = "camera"
     form = ImageSubmit()
     disclaimer= "*note: Camera only works on mobile devices"
     return render(request,
@@ -28,6 +30,7 @@ def photo(request):
                   {'form': form, 'disclaimer': disclaimer})
 
 def file(request):
+    inputType = "file"
     form = FileSubmit()
     disclaimer = ""
     return render (request,
@@ -87,33 +90,49 @@ def train_model(request):
     )
     model_save_path = this_directory / "trash_data_resnet50.keras"
     model.save(str(model_save_path))
+    return HttpResponse("Successfully trained!", content_type="text/html")
 
 def number(request):
     global Number
     if request.method == "POST":
         form = NumberInput(request.POST)
         if form.is_valid():
+            Number = form.cleaned_data["plastic_number"]
+            if 'e' in str(Number) or int(Number) > 7:
+                form = NumberInput()
+                return render(request,
+                              'newapp/home.html',
+                              {'form': form})
             Number = int(form.cleaned_data["plastic_number"])
-            if Number > 7:
-                Number = 7
-            return HttpResponse(f"{c.numbers_head(f"#{Number} Plastic")}", content_type= "text/html")
+            Item = f"#{Number} Plastic"
+            return render(request,
+                      'newapp/info.html',
+                      {'article': '', 'Item': Item, 'Category': c.data[Item]['Category'],
+                       'Status': c.data[Item]['Status'], 'WhyORexamples': c.data[Item]['Examples'], 'li3':"Examples"})
         else:
             print("Form Errors:", form.errors.as_data())
             print("Raw POST data was:", request.POST)
             form = NumberInput()
             return render(request,
-                          'newapp.html',
+                          'newapp/home.html',
                           {'form': form})
     else:
-        return HttpResponse(f"{c.numbers_head(f"#{Number} plastic")}", content_type="text/html")
+        Item = f"#{Number} Plastic"
+        return render(request,
+                      'newapp/info.html',
+                      {'article': '', 'Item': Item, 'Category': c.data[Item]['Category'],
+                       'Status': c.data[Item]['Status'], 'WhyORexamples': c.data[Item]['Examples'], 'li3':"Examples"})
 
 def analyze(request):
     global Item
     this_directory = Path(__file__).resolve().parent
     if request.method == "POST":
-        form = ImageSubmit(request.POST, request.FILES)
+        if inputType == "camera":
+            form = ImageSubmit(request.POST, request.FILES)
+        else:
+            form = FileSubmit(request.POST, request.FILES)
         if form.is_valid():
-            originalfile = form.cleaned_data["image_file"]
+            originalfile = form.cleaned_data["input_file"]
             with tempfile.NamedTemporaryFile(delete=False) as temp_file:
                 for chunk in originalfile.chunks():
                     temp_file.write(chunk)
@@ -125,7 +144,7 @@ def analyze(request):
             inputimg = np.expand_dims(np_img, axis=0)
             img = resnet50.preprocess_input(inputimg.copy())
             model = load_model(str(this_directory / "trash_data_resnet50.keras"))
-            class_names = ["Aluminum Can", "Bottle Cap", "Cleaning Product", "Milk Jug", "PET Bottle", "Single-use Cups", "Soap Bottle", "Takeout Container", "Water Jug", "Yogurt Container"]
+            class_names = ["Aluminum Can", "Bottle Cap", "Cardboard Tube", "Cereal Bag", "Cleaning Product", "Milk Jug", "PET Bottle", "Plastic Bag", "Plastic Utensil", "Plastic Wrapper", "Single-use Cup", "Soap Bottle", "Takeout Container", "Water Jug", "Yogurt Container"]
             model.summary()
             predictions = model.predict(img)
             predicted_index = np.argmax(predictions[0])
@@ -135,7 +154,16 @@ def analyze(request):
             Item = predicted_label
             if file_path.exists():
                 file_path.unlink()
-            return HttpResponse(f"{c.html_head(Item)}", content_type= "text/html")
+            if Item[0].lower() == "a" or Item[0].lower() == "i" or Item[0].lower() == "o" or Item[0].lower() == "e" or \
+                    Item[0].lower() == "u":
+                article = "Looks like this is an: "
+            else:
+                article = "Looks like this is a: "
+
+            return render(request,
+                          'newapp/info.html',
+                          {'article': article, 'Item':Item, 'Category': c.data[Item]['Category'],
+                           'Status': c.data[Item]['Status'], 'WhyORexamples': c.data[Item]['Why'], 'li3':"Why?"})
         else:
             print("Form Errors:", form.errors.as_data())
             print("Raw POST data was:", request.POST)
@@ -144,6 +172,14 @@ def analyze(request):
                           'newapp/photoinput.html',
                           {'form': form})
     else:
-        return HttpResponse(f"{c.html_head(Item)}", content_type="text/html")
+        if Item[0].lower() == "a" or Item[0].lower() == "i" or Item[0].lower() == "o" or Item[0].lower() == "e" or \
+                Item[0].lower() == "u":
+            article = "Looks like this is an: "
+        else:
+            article = "Looks like this is a: "
+        return render(request,
+                      'newapp/info.html',
+                      {'article': article, 'Item': Item, 'Category': c.data[Item]['Category'],
+                       'Status': c.data[Item]['Status'], 'WhyORexamples': c.data[Item]['Why'], 'li3':"Why?"})
 
 
