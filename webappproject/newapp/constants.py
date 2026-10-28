@@ -20,9 +20,9 @@ data= {
         "Status": "Not Recyclable",
         "Why": "Soft plastics such as bags jam machinery, and can mess up the sorting process"
     },
-    "Cleaning Product": {
+    "Spray Bottle": {
         "Category":"#1 Plastic - PETE/PET (Polyethylene terephthalate)",
-        "Status": "Recyclable - If empty and cleaned. Additionally, put the spray trigger/pump back on the bottle before recycling it.",
+        "Status": "Recyclable - If empty and cleaned. Additionally, some types allow you to keep the spray trigger on the bottle before recycling it.",
         "Why":"The spray trigger is also recyclable, but is too small to be recycled on its own"
     },
     "Milk Jug": {
